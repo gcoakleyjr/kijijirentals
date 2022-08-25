@@ -1,5 +1,5 @@
 
-import { Box, Button, Grid, Typography } from '@mui/material'
+import { Box, Button, Grid, Typography, Modal } from '@mui/material'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Context } from '../Context'
 import { createRoot } from 'react-dom/client'
@@ -8,6 +8,7 @@ import Marker from './mapPageComponents/Markers'
 import Popup from './mapPageComponents/Popup'
 import MenuBar from './mapPageComponents/MenuBar'
 import Cards from './mapPageComponents/Cards'
+import FiltersModal from './mapPageComponents/FiltersModal'
 
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ2NvYWtsZXlqciIsImEiOiJjbDU1b3BkdGIwcnZwM2RtZnhxdThqZzNsIn0.ir90AYJ272JpNzo3c8HUHg';
@@ -1014,7 +1015,7 @@ const data = {
 
 
 const RentalsPage = () => {
-    const { loading, handleFetch } = useContext(Context)
+    const { loading, handleFetch, open, handleOpen, handleClose } = useContext(Context)
     const [isActive, setIsActive] = useState(null)
 
     //MAP
@@ -1166,7 +1167,28 @@ const RentalsPage = () => {
                 <Grid item xs={8} md={9}>
                     <Box sx={{ width: '100%', height: '100%', position: 'relative' }}>
                         <Box ref={mapContainer} className="map-container" />
-                        <MenuBar />
+                        <MenuBar handleOpen={handleOpen} />
+                        <Modal
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
+                            disableEnforceFocus
+                        >
+                            <Box sx={{
+                                height: '630px',
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                maxWidth: '900px',
+                                width: '100%',
+
+                            }}>
+                                <FiltersModal />
+                            </Box>
+
+                        </Modal>
                     </Box>
                 </Grid>
             </Grid>

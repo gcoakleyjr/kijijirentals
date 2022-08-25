@@ -2,13 +2,14 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import FilterListIcon from '@mui/icons-material/FilterList';
 import { Paper } from '@mui/material';
 
-export default function MenuBar() {
+export default function MenuBar({ handleOpen }) {
     const [value, setValue] = React.useState(0);
+
 
     return (
         <Paper sx={{ position: 'absolute', bottom: '93px', left: '50%', right: 0, width: '300px', transform: 'translateX(-50%)', backgroundColor: 'cadetblue' }} elevation={3}>
@@ -20,9 +21,9 @@ export default function MenuBar() {
                         setValue(newValue);
                     }}
                 >
-                    <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
-                    <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-                    <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
+                    <BottomNavigationAction label="Previous" icon={<KeyboardDoubleArrowLeftIcon />} />
+                    <BottomNavigationAction label="Filters" icon={<FilterListIcon />} onClick={handleOpen} />
+                    <BottomNavigationAction label="Next" icon={<KeyboardDoubleArrowRightIcon />} />
                 </BottomNavigation>
             </Box>
         </Paper>

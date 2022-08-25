@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useContext } from 'react'
+import { useContext } from 'react'
 import { Box } from '@mui/system'
 import { Paper, Button } from '@mui/material'
 
@@ -10,21 +10,8 @@ import { Context } from '../../Context'
 
 
 const LandingPageForm = () => {
-    const { formData, setFormData } = useContext(Context)
-    const [welcomePage, setWelcomePage] = useState(true)
-    const [locationForm, setlocationForm] = useState(false)
-    const [filters, setFilters] = useState(false)
+    const { formData, setFormData, welcomePage, locationForm, filters, switchToFilters, switchToForm } = useContext(Context)
 
-
-
-    function switchToForm() {
-        setWelcomePage(false)
-        setlocationForm(true)
-    }
-    function switchToFilters() {
-        setlocationForm(false)
-        setFilters(true)
-    }
 
 
     return (

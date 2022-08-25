@@ -2,6 +2,8 @@ if (process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
 
+const locations = require('./src/utils/locations')
+
 const express = require('express')
 const axios = require('axios')
 const cheerio = require('cheerio')
@@ -17,8 +19,6 @@ app.use(cors())
 app.use(express.static(path.join(__dirname, 'public')))
 const PORT = process.env.PORT || 3001
 
-const apiKey = "fd355eb55013d013bd1136872e7a59cb"
-const baseUrl = `http://api.scraperapi.com?api_key=${apiKey}&autoparse=true`
 const kijiji = 'https://www.kijiji.ca'
 
 
@@ -28,6 +28,18 @@ const regex = /(\r\n|\n|\r)/gm
 
 
 app.get('/api', async (req, res) => {
+    const { formData } = req.query
+    const searchParamaters = JSON.parse(formData)
+    const { province, area, distance, unit, unitCode, rooms, roomCade, price } = searchParamaters
+    const city = area[1].toLowerCase().replace(/_/g, "-")
+    const unitString = unit ? unit.length > 1 ? "/" + unit.join("__") : "/" + unit[0] : ""
+    console.log(searchParamaters)
+    console.log(unitString)
+
+
+    const url = `${kijiji}/b-apartments-condos/${city}${unitString}/c37l${area[0]}${unit ? unitCode : ""}?radius=${distance}`
+    console.log(url)
+
     // const getData = async () => {
     //     try {
     //         const rentals = {

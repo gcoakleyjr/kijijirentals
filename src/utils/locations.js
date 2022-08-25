@@ -1,17 +1,6 @@
-export const provinces = [
-    { label: 'Alberta', id: 9003, cat: 'province', areaMatch: 'Alberta' },
-    { label: 'Britsh Columbia', id: 9007, cat: 'province', areaMatch: 'Britsh_Columbia' },
-    { label: 'Manitoba', id: 9006, cat: 'province', areaMatch: 'Manitoba' },
-    { label: 'New Brunswick', id: 9003, cat: 'province', areaMatch: 'New_Brunswick' },
-    { label: 'Newfoundland', id: 9008, cat: 'province', areaMatch: 'New_Foundland' },
-    { label: 'Nova Scotia', id: 9002, cat: 'province', areaMatch: 'Nova_Scotia' },
-    { label: 'Ontario', id: 9004, cat: 'province', areaMatch: 'Ontario' },
-    { label: 'Prince Edward Island', id: 9003, cat: 'province', areaMatch: 'Prince_Edward' },
-    { label: 'Quebec', id: 9001, cat: 'province', areaMatch: 'Quebec' },
-    { label: 'Saskatchewan', id: 9009, cat: 'province', areaMatch: 'Saskatchewan' }
-]
 
-export const areas = {
+
+module.exports = {
     Alberta: [
         { label: 'Banff Canmore', id: 1700234, cat: 'area' },
         { label: 'Calgary', id: 1700199, cat: 'area' },
@@ -156,7 +145,7 @@ export const areas = {
         { label: 'SUDBURY', id: 1700245, cat: 'area' },
         { label: 'THUNDER_BAY', id: 1700126, cat: 'area' },
         { label: 'TIMMINS', id: 1700238, cat: 'area' },
-        { label: 'GTA_GREATER_TORONTO_AREA', id: 1700272, cat: 'area' },
+        { label: 'TORONTO_GTA', id: 1700272, cat: 'area' },
         { label: 'CITY_OF_TORONTO', id: 1700273, cat: 'area' },
         { label: 'MARKHAM_YORK_REGION', id: 1700274, cat: 'area' },
         { label: 'MISSISSAUGA_PEEL_REGION', id: 1700276, cat: 'area' },
@@ -215,22 +204,3 @@ export const areas = {
     ]
 }
 
-export const unitType = [
-    { label: 'Apartment', id: 'apartment', unitCode: 'a29276001', cat: 'unit' },
-    { label: 'Condo', id: 'condo', unitCode: 'a29276001', cat: 'unit' },
-    { label: 'Basement', id: 'basement', unitCode: 'a29276001', cat: 'unit' },
-    { label: 'House', id: 'house', unitCode: 'a29276001', cat: 'unit' },
-    { label: 'Townhouse', id: 'townhouse', unitCode: 'a29276001', cat: 'unit' },
-    { label: 'Duplex/Triplex', id: 'duplex+triplex', unitCode: 'a29276001', cat: 'unit' }
-]
-
-export const bedrooms = [
-    { label: 'Bachelor/Studio', id: 'bachelor+studio', roomCode: 'a27949001', cat: 'rooms' },
-    { label: '1 Bedroom', id: '1+bedroom', roomCode: 'a27949001', cat: 'rooms' },
-    { label: '1 + Den', id: '1+bedroom+den', roomCode: 'a27949001', cat: 'rooms' },
-    { label: '2 Bedrooms', id: '2+bedrooms', roomCode: 'a27949001', cat: 'rooms' },
-    { label: '3 Bedrooms', id: '3+bedrooms', roomCode: 'a27949001', cat: 'rooms' },
-    { label: '4 Bedrooms', id: '4+bedrooms', roomCode: 'a27949001', cat: 'rooms' },
-    { label: '5+ Bedrooms', id: '5+bedrooms', roomCode: 'a27949001', cat: 'rooms' },
-
-]

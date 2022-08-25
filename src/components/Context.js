@@ -5,7 +5,7 @@ const Context = createContext()
 const ContextProvider = ({ children }) => {
     const [formData, setFormData] = useState({
         province: '',
-        area: '',
+        area: [],
         distance: 25,
         unit: '',
         unitCode: '',
@@ -17,11 +17,35 @@ const ContextProvider = ({ children }) => {
     const [data, setData] = useState({})
     const [loading, setLoading] = useState(false)
     const [fetchCount, setFetchCount] = useState(0)
+    const [welcomePage, setWelcomePage] = useState(true)
+    const [locationForm, setlocationForm] = useState(false)
+    const [filters, setFilters] = useState(false)
+
+    function switchToForm() {
+        setWelcomePage(false)
+        setlocationForm(true)
+    }
+    function switchToFilters() {
+        setlocationForm(false)
+        setFilters(true)
+    }
+
+    //FILTERS MODAL
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => {
+        switchToForm()
+        switchToFilters()
+        setOpen(true);
+    }
+    const handleClose = () => {
+        setOpen(false)
+    };
 
 
     function handleFetch() {
         setLoading(true)
         setFetchCount(fetchCount + 1)
+        setOpen(false)
     }
 
 
@@ -47,7 +71,21 @@ const ContextProvider = ({ children }) => {
     }, [fetchCount])
 
     return (
-        <Context.Provider value={{ formData, setFormData, data, loading, handleFetch }}>
+        <Context.Provider value={{
+            formData,
+            setFormData,
+            data,
+            loading,
+            handleFetch,
+            welcomePage,
+            locationForm,
+            filters,
+            switchToForm,
+            switchToFilters,
+            open,
+            handleClose,
+            handleOpen
+        }}>
             {children}
         </Context.Provider>
     )

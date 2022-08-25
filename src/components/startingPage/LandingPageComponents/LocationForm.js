@@ -32,12 +32,12 @@ const LocationForm = ({ switchToFilters, formData, setFormData }) => {
     }
 
     function handleFormChange(e, value) {
-        const { cat, id } = value
+        const { cat, id, label } = value
         setNext1Button(true)
         setFormData(prevFormData => {
             return {
                 ...prevFormData,
-                [cat]: id
+                [cat]: [id, label]
             }
         })
     }
