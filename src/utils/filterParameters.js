@@ -218,7 +218,7 @@ export const areas = {
 export const unitType = [
     { label: 'Apartment', id: 'apartment', unitCode: 'a29276001', cat: 'unit' },
     { label: 'Condo', id: 'condo', unitCode: 'a29276001', cat: 'unit' },
-    { label: 'Basement', id: 'basement', unitCode: 'a29276001', cat: 'unit' },
+    { label: 'Basement', id: 'basement+apartment', unitCode: 'a29276001', cat: 'unit' },
     { label: 'House', id: 'house', unitCode: 'a29276001', cat: 'unit' },
     { label: 'Townhouse', id: 'townhouse', unitCode: 'a29276001', cat: 'unit' },
     { label: 'Duplex/Triplex', id: 'duplex+triplex', unitCode: 'a29276001', cat: 'unit' }

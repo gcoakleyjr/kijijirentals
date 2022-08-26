@@ -59,6 +59,7 @@ const ContextProvider = ({ children }) => {
             .then(data => {
                 setData(data.data)
                 setLoading(false)
+                console.log(data.data)
             })
             .catch(error => console.error(error))
     }
