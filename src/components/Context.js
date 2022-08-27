@@ -21,10 +21,17 @@ const ContextProvider = ({ children }) => {
     const [locationForm, setlocationForm] = useState(false)
     const [filters, setFilters] = useState(false)
 
+    //FILTERS FORM SWITCHING
     function switchToForm() {
         setWelcomePage(false)
         setlocationForm(true)
     }
+
+    function switchBackToForm() {
+        setlocationForm(true)
+        setFilters(false)
+    }
+
     function switchToFilters() {
         setlocationForm(false)
         setFilters(true)
@@ -41,7 +48,18 @@ const ContextProvider = ({ children }) => {
         setOpen(false)
     };
 
+    //SIDEBAR STATES
+    const [sideBarOpen, setSideBarOpen] = useState(false);
 
+    const handleDrawerOpen = () => {
+        setSideBarOpen(true);
+    };
+
+    const handleDrawerClose = () => {
+        setSideBarOpen(false);
+    };
+
+    //BACKEND FETCH
     function handleFetch() {
         setLoading(true)
         setFetchCount(fetchCount + 1)
@@ -83,9 +101,13 @@ const ContextProvider = ({ children }) => {
             filters,
             switchToForm,
             switchToFilters,
+            switchBackToForm,
             open,
             handleClose,
-            handleOpen
+            handleOpen,
+            sideBarOpen,
+            handleDrawerOpen,
+            handleDrawerClose
         }}>
             {children}
         </Context.Provider>

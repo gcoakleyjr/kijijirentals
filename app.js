@@ -90,7 +90,6 @@ app.get('/api', async (req, res) => {
                 countries: ['ca']
             }).send()
 
-            console.log(areaCoordinates.body.features[0].geometry)
             rentals.cityCoordinates = areaCoordinates.body.features[0].geometry
             const lat = areaCoordinates.body.features[0].geometry.coordinates[0]
             const lng = areaCoordinates.body.features[0].geometry.coordinates[1]

@@ -75,7 +75,7 @@ function RentalCardDesktop({ data, setIsActive, isActive, id, flyToStore, create
         <IconButton aria-label="beds">
           <LocalHotelOutlinedIcon />
         </IconButton>
-        <Typography variant='caption' sx={{ transform: 'translateY(2px)', marginRight: '0.5rem' }}>{data.bedrooms}</Typography>
+        <Typography variant='caption' sx={{ transform: 'translateY(2px)', marginRight: '0.5rem' }}>{data.properties.bedrooms}</Typography>
         <IconButton aria-label="to-ad" className='to-kijiji'>
           <Link href={`https://www.kijiji.ca${data.properties.url}`} target="_blank" rel="noopener"><LaunchIcon sx={{ transform: 'translateY(3px)' }} /></Link>
         </IconButton>

@@ -9,6 +9,8 @@ import Popup from './mapPageComponents/Popup'
 import MenuBar from './mapPageComponents/MenuBar'
 import Cards from './mapPageComponents/Cards'
 import FiltersModal from './mapPageComponents/FiltersModal'
+import PopupList from './mapPageComponents/PopupList'
+import PersistentDrawerLeft from './mapPageComponents/SideBar'
 
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ2NvYWtsZXlqciIsImEiOiJjbDU1b3BkdGIwcnZwM2RtZnhxdThqZzNsIn0.ir90AYJ272JpNzo3c8HUHg';
@@ -1012,19 +1014,19 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZ2NvYWtsZXlqciIsImEiOiJjbDU1b3BkdGIwcnZwM2RtZ
 // }
 
 //SIDE BAR RENTAL CARDS
-
+console.log(Context)
 
 const RentalsPage = () => {
-    const { loading, handleFetch, open, handleOpen, handleClose, data } = useContext(Context)
+    const { loading, handleFetch, open, handleOpen, handleClose, data, handleDrawerOpen } = useContext(Context)
     const [isActive, setIsActive] = useState(null)
 
     //MAP
     const mapContainer = useRef(null);
     const map = useRef(null);
     const popUpRef = useRef(new mapboxgl.Popup({ offset: 15, closeButton: false }))
-    const [lng, setLng] = useState(-79.347015);
-    const [lat, setLat] = useState(43.651070);
-    const [zoom, setZoom] = useState(11.2);
+    // const [lng, setLng] = useState(null); //-79.347015
+    // const [lat, setLat] = useState(); //43.651070
+    // const [zoom, setZoom] = useState(11.2);
 
 
     const flyToRental = React.useCallback((currentFeature) => {
@@ -1053,7 +1055,7 @@ const RentalsPage = () => {
             .addTo(map.current)
     }, [])
 
-
+    //CREATE MAP
     useEffect(() => {
         if (loading) return
         // if (map.current) return; // initialize map only once
@@ -1061,30 +1063,76 @@ const RentalsPage = () => {
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
             style: 'mapbox://styles/gcoakleyjr/cl6vjuq35000314l2d5mgc07m',
-            center: [lng, lat],
-            zoom: zoom
+            center: [data.cityCoordinates.coordinates[0], data.cityCoordinates.coordinates[1]],
+            zoom: 11.2
         });
     }, [loading]);
 
+    //MAP FEATURES ON ON CLICK
     useEffect(() => {
         if (!map.current) return; // wait for map to initialize
-        map.current.on('move', () => {
-            setLng(map.current.getCenter().lng.toFixed(4));
-            setLat(map.current.getCenter().lat.toFixed(4));
-            setZoom(map.current.getZoom().toFixed(2));
-        });
-    });
 
-    useEffect(() => {
-        if (!map.current) return; // wait for map to initialize
-        console.log("ran1")
         map.current.on('load', () => {
-            console.log("ran2")
+
+            //RENTAL DATA SOURCE
             map.current.addSource('data', {
                 'type': 'geojson',
-                'data': data
+                'data': data,
+                cluster: true,
+                clusterMaxZoom: 14, // Max zoom to cluster points on
+                clusterRadius: 10, // Radius of each cluster when clustering points (defaults to 50)
             });
 
+            //RENTAL DATA AS CLUSTERS
+            map.current.addLayer({
+                id: 'clusters',
+                type: 'circle',
+                source: 'data',
+                filter: ['has', 'point_count'],
+                paint: {
+                    // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+                    // with three steps to implement three types of circles:
+                    //   * Blue, 20px circles when point count is less than 100
+                    //   * Yellow, 30px circles when point count is between 100 and 750
+                    //   * Pink, 40px circles when point count is greater than or equal to 750
+                    'circle-color': [
+                        'step',
+                        ['get', 'point_count'],
+                        'cadetblue',
+                        100,
+                        'cadetblue',
+                        750,
+                        'cadetblue'
+                    ],
+                    'circle-radius': [
+                        'step',
+                        ['get', 'point_count'],
+                        20, //size of circle 
+                        100,
+                        30, //size of circle
+                        750,
+                        40 //size of circle
+                    ]
+                }
+            });
+
+            //CLUSTER NUMBER COUNT
+            map.current.addLayer({
+                id: 'cluster-count',
+                type: 'symbol',
+                source: 'data',
+                filter: ['has', 'point_count'],
+                layout: {
+                    'text-field': '{point_count_abbreviated}',
+                    'text-font': ['DIN Offc Pro Bold', 'Arial Unicode MS Bold'],
+                    'text-size': 12
+                },
+                paint: {
+                    "text-color": "#ffffff"
+                }
+            });
+
+            //RENTAL DATA AS POINTS
             map.current.addLayer({
                 id: 'unclustered-point',
                 type: 'circle',
@@ -1098,6 +1146,48 @@ const RentalsPage = () => {
                 }
             });
 
+            //CLUSTER ON CLICK
+            map.current.on('click', 'clusters', (e) => {
+                const features = map.current.queryRenderedFeatures(e.point, {
+                    layers: ['clusters']
+                });
+                const clusterId = features[0].properties.cluster_id;
+
+                const clusterSource = map.current.getSource('data')
+
+                clusterSource.getClusterChildren(clusterId, function (err, list) {
+                    console.log('getClusterChildren', list);
+                    const popupNode = document.createElement("div")
+
+                    const root = createRoot(popupNode)
+                    root.render(
+                        <PopupList
+                            list={list}
+                            handleDrawerOpen={handleDrawerOpen}
+                        />
+                    )
+                    popUpRef.current
+                        .setLngLat(features[0].geometry.coordinates)
+                        .setDOMContent(popupNode)
+                        .addTo(map.current)
+
+                });
+
+                //ZOOM TO CLUSTOR POINT
+                clusterSource.getClusterExpansionZoom(
+                    clusterId,
+                    (err, zoom) => {
+                        if (err) return;
+
+                        map.current.easeTo({
+                            center: features[0].geometry.coordinates,
+                            zoom: zoom - 1
+                        });
+                    }
+                );
+            });
+
+            //POINT ON CLICK
             map.current.on("click", e => {
                 const features = map.current.queryRenderedFeatures(e.point, {
                     layers: ["unclustered-point"]
@@ -1109,14 +1199,10 @@ const RentalsPage = () => {
                 createPopUp(clickedPoint)
                 flyToRental(clickedPoint)
                 setIsActive(clickedPoint.properties.id)
-
-                // if (activeRef[0]) {
-                //     activeRef[0].classList.remove('active')
-                // }
-
             })
 
 
+            //CREATE PRICE MARKERS ON MAP
             data.features.forEach((feature) => {
                 // Create a React ref
                 const ref = React.createRef();
@@ -1163,6 +1249,8 @@ const RentalsPage = () => {
                 </Typography>
                 <Button onClick={handleFetch}>Refresh</Button>
             </Box>
+
+            <PersistentDrawerLeft />
 
             <Grid container sx={{ height: '100%' }} >
                 <Grid item xs={4} md={3} sx={{ height: '100%', overflow: 'scroll' }} >

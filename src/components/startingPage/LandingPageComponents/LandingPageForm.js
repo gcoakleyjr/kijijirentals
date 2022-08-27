@@ -10,7 +10,7 @@ import { Context } from '../../Context'
 
 
 const LandingPageForm = () => {
-    const { formData, setFormData, welcomePage, locationForm, filters, switchToFilters, switchToForm } = useContext(Context)
+    const { formData, setFormData, welcomePage, locationForm, filters, switchToFilters, switchToForm, switchBackToForm } = useContext(Context)
 
 
 
@@ -35,7 +35,8 @@ const LandingPageForm = () => {
             }}>
                 <Box padding={3} sx={{ height: '85%', width: '100%' }}>
                     {/* TO KIJIJI BUTTON*/}
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Box sx={{ display: 'flex', justifyContent: `${filters ? 'space-between' : 'flex-end'}` }}>
+                        {filters && <Button variant="text" onClick={switchBackToForm}>CHANGE LOCATION</Button>}
                         <Button variant='outlined'>Kijiji</Button>
                     </Box>
 
