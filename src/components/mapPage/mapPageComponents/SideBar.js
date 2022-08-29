@@ -2,22 +2,17 @@ import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import { Context } from '../../Context';
 
-const drawerWidth = 240;
+const drawerWidth = '25%';
 
 
 
@@ -33,11 +28,12 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function PersistentDrawerLeft() {
     const theme = useTheme();
-    const { sideBarOpen, handleDrawerClose } = React.useContext(Context)
+    const { sideBarOpen, handleDrawerClose, rentalData, loadingRental } = React.useContext(Context)
 
 
     return (
         <Box sx={{ display: 'flex' }}>
+
 
             <Drawer
                 sx={{
@@ -59,31 +55,36 @@ export default function PersistentDrawerLeft() {
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
-                <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List>
-                <Divider />
-                <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List>
+                <Box sx={{ height: "100%", width: '100%', position: 'relative' }}>
+                    {loadingRental ?
+                        <Box
+                            sx={{
+                                color: '#fff',
+                                zIndex: (theme) => theme.zIndex.drawer + 1,
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                height: '100%',
+                                width: '100%',
+                                background: 'rgba(0, 0, 0, .3)',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <CircularProgress color="inherit" />
+                        </Box>
+                        :
+                        <Box>
+                            <Typography variant='h4'>{rentalData.title}</Typography>
+                        </Box>
+                    }
+
+
+
+                </Box>
+
+
             </Drawer>
 
         </Box>

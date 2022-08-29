@@ -2,7 +2,6 @@ if (process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
 
-const locations = require('./src/utils/locations')
 
 const express = require('express')
 const axios = require('axios')
@@ -30,7 +29,7 @@ const regex = /(\r\n|\n|\r)/gm
 app.get('/api', async (req, res) => {
     const { formData } = req.query
     const searchParamaters = JSON.parse(formData)
-    const { province, area, distance, unit, unitCode, rooms, roomCode, price } = searchParamaters
+    const { area, distance, unit, unitCode, rooms, roomCode, price } = searchParamaters
     const city = area[1].toLowerCase().replace(/_/g, "-")
     const unitString = unit ? unit.length > 1 ? unit.join("__") : unit[0] : ""
     const roomString = rooms ? rooms.length > 1 ? rooms.join("__") : rooms[0] : ""
@@ -39,7 +38,7 @@ app.get('/api', async (req, res) => {
 
 
     const url = `${kijiji}/b-apartments-condos/${city}${unitString || roomString ? "/" : ""}${roomString}${roomString && unitString ? "-" : ""}${unitString}/c37l${area[0]}${roomString ? roomCode : ""}${unit ? unitCode : ""}?radius=${distance}${priceMin || priceMax ? "&price=" : ""}${priceMin}${priceMin || priceMax ? "__" : ""}${priceMax}`
-    console.log(url)
+
 
     const getData = async () => {
         try {
@@ -119,6 +118,54 @@ app.get('/api', async (req, res) => {
 
 })
 
+
+app.get('/rental', async (req, res) => {
+    const { rentalUrl } = req.query
+    console.log(rentalUrl)
+
+    const getData = async () => {
+        try {
+            const rental = {
+                images: [],
+                generalInfo: [],
+                description: [],
+                utilities: [],
+                overview: []
+            }
+            const response = await axios.get(`${kijiji}${rentalUrl}`)
+
+            const html = response.data
+            const $ = cheerio.load(html)
+
+            rental.title = $('h1').text()
+            $('.image-3484370594').each(function () {
+                rental.images.push($(this).attr('src'))
+            })
+            $('.noLabelValue-3861810455').each(function () {
+                rental.generalInfo.push($(this).text())
+            })
+            rental.address = $('.address-3617944557').text()
+            rental.price = $('.priceWrapper-1165431705').find('span:first').text()
+            $('.descriptionContainer-231909819').find('p').each(function () {
+                rental.description.push($(this).text())
+            })
+            $('.available-731611581').each(function () {
+                rental.utilities.push($(this).text())
+            })
+            $('.twoLinesValue-2815147826').each(function () {
+                rental.overview.push($(this).text())
+            })
+
+            return rental
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    const data = await getData()
+    res.json(data)
+
+})
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)

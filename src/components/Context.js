@@ -14,9 +14,14 @@ const ContextProvider = ({ children }) => {
         price: [0, 5000]
     })
 
+    const [rentalUrl, setRentalUrl] = useState("")
+
     const [data, setData] = useState({})
+    const [rentalData, setRentalData] = useState({})
     const [loading, setLoading] = useState(false)
+    const [loadingRental, setLoadingRental] = useState(false)
     const [fetchCount, setFetchCount] = useState(0)
+    const [fetchCount2, setFetchCount2] = useState(0)
     const [welcomePage, setWelcomePage] = useState(true)
     const [locationForm, setlocationForm] = useState(false)
     const [filters, setFilters] = useState(false)
@@ -63,7 +68,14 @@ const ContextProvider = ({ children }) => {
     function handleFetch() {
         setLoading(true)
         setFetchCount(fetchCount + 1)
+        console.log(fetchCount)
         setOpen(false)
+    }
+
+    function handleRentalFetch() {
+        setLoadingRental(true)
+        setFetchCount2(prev => prev + 2)
+        console.log(fetchCount2)
     }
 
 
@@ -77,17 +89,40 @@ const ContextProvider = ({ children }) => {
             .then(data => {
                 setData(data.data)
                 setLoading(false)
+            })
+            .catch(error => console.error(error))
+    }
+
+    function getRental() {
+        const options = {
+            method: 'GET',
+            url: 'http://localhost:3001/rental',
+            params: { rentalUrl }
+        }
+        axios.request(options)
+            .then(data => {
+                setRentalData(data.data)
+                setLoadingRental(false)
                 console.log(data.data)
             })
             .catch(error => console.error(error))
     }
 
     useEffect(() => {
+
         if (loading) {
             getRentals()
         }
 
     }, [fetchCount])
+
+    useEffect(() => {
+        console.log('use1')
+        if (loadingRental) {
+            console.log('use2')
+            getRental()
+        }
+    }, [fetchCount2])
 
     return (
         <Context.Provider value={{
@@ -107,7 +142,11 @@ const ContextProvider = ({ children }) => {
             handleOpen,
             sideBarOpen,
             handleDrawerOpen,
-            handleDrawerClose
+            handleDrawerClose,
+            loadingRental,
+            handleRentalFetch,
+            setRentalUrl,
+            rentalData
         }}>
             {children}
         </Context.Provider>
