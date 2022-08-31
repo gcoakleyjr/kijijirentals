@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { Context } from '../../Context'
+import React from 'react'
+
 
 import { Stack, Box, Typography, Button } from '@mui/material'
 
@@ -13,8 +13,27 @@ const PopupList = ({ list, handleDrawerOpen, handleRentalFetch, setRentalUrl }) 
 
     const rentalItems = list.map((item, i) => {
         return (
-            <Box key={i} onClick={() => handleListClick(item.properties.url)} className="list-item" sx={{ height: '80px', display: 'flex', flexDirection: 'row', width: '100%', cursor: 'pointer' }}>
-                <Box sx={{ height: '100%', overflow: 'hidden', width: '30%', marginRight: '.5rem' }}>
+            <Box
+                key={i}
+                onClick={() => handleListClick(item.properties.url)}
+                className="list-item"
+                sx={{
+                    height: '80px',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    width: '100%',
+                    cursor: 'pointer'
+                }}>
+                <Box
+                    sx={{
+                        height: '100%',
+                        overflow: 'hidden',
+                        width: '30%',
+                        marginRight: '.5rem',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
                     <img src={item.properties.mainImage} alt="" className="list-item-image" />
                 </Box>
                 <Stack sx={{ width: '70%' }}>
@@ -29,7 +48,15 @@ const PopupList = ({ list, handleDrawerOpen, handleRentalFetch, setRentalUrl }) 
     })
 
     return (
-        <Stack spacing={1} className="popup-list" sx={{ maxHeight: '320px', overflowY: 'scroll', padding: '.5rem', width: '345px' }}>
+        <Stack
+            spacing={1}
+            className="popup-list"
+            sx={{
+                maxHeight: '320px',
+                overflowY: 'scroll',
+                padding: '.5rem',
+                width: '345px'
+            }}>
             {rentalItems}
         </Stack>
     )

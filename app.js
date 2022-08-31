@@ -137,15 +137,18 @@ app.get('/rental', async (req, res) => {
             const html = response.data
             const $ = cheerio.load(html)
 
+            rental.url = `${kijiji}${rentalUrl}`
             rental.title = $('h1').text()
+            rental.address = $('.address-3617944557:first').text()
+            rental.price = $('.priceWrapper-1165431705').find('span:first').text()
+            rental.time = $('.datePosted-383942873').find('time:first').text()
+            rental.description2 = $('.descriptionContainer-231909819').find('div').text()
             $('.image-3484370594').each(function () {
                 rental.images.push($(this).attr('src'))
             })
             $('.noLabelValue-3861810455').each(function () {
                 rental.generalInfo.push($(this).text())
             })
-            rental.address = $('.address-3617944557').text()
-            rental.price = $('.priceWrapper-1165431705').find('span:first').text()
             $('.descriptionContainer-231909819').find('p').each(function () {
                 rental.description.push($(this).text())
             })
@@ -155,6 +158,7 @@ app.get('/rental', async (req, res) => {
             $('.twoLinesValue-2815147826').each(function () {
                 rental.overview.push($(this).text())
             })
+
 
             return rental
 

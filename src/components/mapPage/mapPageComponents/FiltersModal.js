@@ -5,7 +5,7 @@ import WelcomeComponent from '../../startingPage/LandingPageComponents/WelcomeCo
 import LocationForm from '../../startingPage/LandingPageComponents/LocationForm'
 import Filters from '../../startingPage/LandingPageComponents/Filters'
 import { Context } from '../../Context'
-import { Box, Paper, Button } from '@mui/material'
+import { Box, Paper, Button, Stack, Typography } from '@mui/material'
 
 const FiltersModal = () => {
     const { formData, setFormData, welcomePage, locationForm, filters, switchToFilters, switchToForm, switchBackToForm } = useContext(Context)
@@ -26,7 +26,11 @@ const FiltersModal = () => {
         }}>
             <Box padding={3} sx={{ height: '85%', width: '100%' }}>
                 {/* TO KIJIJI BUTTON*/}
-                <Box sx={{ display: 'flex', justifyContent: `${filters ? 'space-between' : 'flex-end'}` }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Stack spacing={1} direction='row' sx={{ alignItems: 'flex-end' }}>
+                        <img src='./images/logo-01.svg' alt='' className='logo-sm' />
+                        <Typography variant='body1' sx={{ fontWeight: '500' }}>kijiji mapper</Typography>
+                    </Stack>
                     {filters && <Button variant="text" onClick={switchBackToForm}>CHANGE LOCATION</Button>}
                     <Button variant='outlined'>Kijiji</Button>
                 </Box>

@@ -1,3 +1,7 @@
+* {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
 .glass-border {
     position: relative;
     z-index: 1;
@@ -73,6 +77,21 @@
     right: 26px;
     top: 70%;
     z-index: 4;
+}
+
+.gradient-subtitle {
+    background: rgb(255, 157, 122);
+    background: linear-gradient(90deg, rgba(255, 157, 122, 1) 0%, rgba(92, 153, 155, 1) 40%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.logo-sm {
+    height: 45px;
+}
+
+.logo-lg {
+    height: 270px;
 }
 
 .map-container {
@@ -168,8 +187,12 @@
     border-radius: 0;
 }
 
-.list-item-image {
+/* .list-item-image {
     height: 110%
+} */
+
+.rentalDetailImg {
+    height: 100%;
 }
 
 .list-item {
@@ -178,4 +201,8 @@
 
 .list-item:hover {
     background-color: rgb(248, 248, 248);
+}
+
+.rentalDetailCard {
+    box-shadow: 0px 6px 6px -3px rgb(0 0 0 / 6%), 0px 10px 14px 1px rgb(0 0 0 / 6%), 0px 4px 18px 3px rgb(0 0 0 / 6%) !important
 }

@@ -7,12 +7,15 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import Backdrop from '@mui/material/Backdrop';
+import { Stack, Paper } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
+import Chip from '@mui/material/Chip';
+import { Link } from '@mui/material';
+import LaunchIcon from '@mui/icons-material/Launch';
 
 import { Context } from '../../Context';
 
-const drawerWidth = '25%';
+const drawerWidth = '35%';
 
 
 
@@ -30,6 +33,7 @@ export default function PersistentDrawerLeft() {
     const theme = useTheme();
     const { sideBarOpen, handleDrawerClose, rentalData, loadingRental } = React.useContext(Context)
 
+    if (!rentalData.price) return
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -43,6 +47,9 @@ export default function PersistentDrawerLeft() {
                     '& .MuiDrawer-paper': {
                         width: drawerWidth,
                         boxSizing: 'border-box',
+                        minWidth: '380px',
+                        backgroundColor: '#f8f8f8',
+                        maxWidth: '500px'
                     },
                 }}
                 variant="persistent"
@@ -75,18 +82,122 @@ export default function PersistentDrawerLeft() {
                             <CircularProgress color="inherit" />
                         </Box>
                         :
-                        <Box>
-                            <Typography variant='h4'>{rentalData.title}</Typography>
-                        </Box>
+                        <Stack>
+                            <Box
+                                sx={{
+                                    height: '400px',
+                                    width: '100%',
+                                    overflow: 'hidden',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }}>
+                                <img src={rentalData.images[0]} alt='' className='rentalDetailImg' />
+                            </Box>
+
+                            <Stack p={2} spacing={2} sx={{ transform: 'translateY(-35px)' }}>
+                                <Paper
+                                    className='rentalDetailCard'
+                                    elevation={10}
+                                    sx={{
+                                        padding: '1rem',
+                                    }}>
+
+                                    <Stack spacing={1}>
+                                        <Stack direction='row' sx={{ justifyContent: 'space-between' }}>
+                                            <Typography
+                                                variant="h5"
+                                                sx={{
+                                                    color: 'cadetblue',
+                                                    transition: '.3s',
+                                                    cursor: 'pointer',
+                                                    display: 'inline-block',
+                                                    fontWeight: '700',
+                                                }}>
+                                                {rentalData.price}
+                                            </Typography>
+
+                                            <IconButton aria-label="to-ad" className='to-kijiji' sx={{ transform: 'translateY(-7px)' }}>
+                                                <Link href={rentalData.url} target="_blank" rel="noopener"><LaunchIcon /></Link>
+                                            </IconButton>
+                                        </Stack>
+
+
+                                        <Typography variant='caption text'>{rentalData.address}</Typography>
+
+                                        <Stack direction="row" spacing={2} sx={{ marginBottom: '1rem !important' }}>
+                                            {rentalData.generalInfo.map((val, i) => {
+                                                if (i > 2) return ''
+                                                return (<Chip key={i} label={val} />)
+                                            })}
+                                        </Stack>
+
+                                        <Typography variant='caption text' sx={{ color: 'rgb(101 101 101)', fontSize: '.85rem' }}>Posted {rentalData.time}</Typography>
+
+                                    </Stack>
+
+                                </Paper>
+                                <Paper
+                                    className='rentalDetailCard'
+                                    elevation={10}
+                                    sx={{
+                                        padding: '1rem',
+                                    }}>
+                                    <Stack spacing={1}>
+
+                                        <Typography variant='h6'>Overview</Typography>
+                                        <Box>
+                                            <Typography variant='body1'>Utilities Included</Typography>
+                                            <Stack direction="row" spacing={2}>
+                                                {
+                                                    ['Hydro', 'Heat', 'Water'].some(val => rentalData.utilities.includes(val))
+                                                        ?
+                                                        rentalData.utilities.map((val, i) => {
+                                                            if (val === 'Water' || val === 'Hydro' || val === 'Heat') return (<Chip key={i} label={val} />)
+                                                            else return ''
+                                                        })
+                                                        :
+                                                        (<Chip label='None' />)
+                                                }
+                                            </Stack>
+                                        </Box>
+
+                                        <Box>
+                                            <Typography variant='body1'>Size</Typography>
+                                        </Box>
+
+
+                                    </Stack>
+                                </Paper>
+
+                                <Paper
+                                    className='rentalDetailCard'
+                                    elevation={10}
+                                    sx={{
+                                        padding: '1rem',
+                                    }}>
+                                    <Stack spacing={1}>
+                                        <Typography variant='h6'>Description</Typography>
+                                        <Stack>
+                                            {
+                                                rentalData.description.length === 0
+                                                    ?
+                                                    rentalData.description2
+                                                    :
+                                                    rentalData.description.map((val, i) => {
+                                                        if (!val) return ''
+                                                        return (<Typography variant='body2' key={i}>{val}<br></br><br></br></Typography>)
+                                                    })
+                                            }
+                                        </Stack>
+                                    </Stack>
+                                </Paper>
+
+                            </Stack>
+                        </Stack>
                     }
-
-
-
                 </Box>
-
-
             </Drawer>
-
         </Box>
     );
 }

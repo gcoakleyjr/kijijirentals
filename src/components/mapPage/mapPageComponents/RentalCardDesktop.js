@@ -46,7 +46,7 @@ function RentalCardDesktop({ data, setIsActive, isActive, id, flyToStore, create
     flyToStore(data)
     createPopUp(data)
   }
-  console.log("ran")
+
 
 
   return (
@@ -62,6 +62,7 @@ function RentalCardDesktop({ data, setIsActive, isActive, id, flyToStore, create
         subheader={data.properties.price}
       />
       <CardMedia
+        sx={{ maxHeight: '400px' }}
         component="img"
         height="50%"
         image={data.properties.mainImage}

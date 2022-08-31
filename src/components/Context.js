@@ -48,6 +48,7 @@ const ContextProvider = ({ children }) => {
         switchToForm()
         switchToFilters()
         setOpen(true);
+        setSideBarOpen(false)
     }
     const handleClose = () => {
         setOpen(false)
