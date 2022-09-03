@@ -12,13 +12,12 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Chip from '@mui/material/Chip';
 import { Link } from '@mui/material';
 import LaunchIcon from '@mui/icons-material/Launch';
+import { SliderComponent } from './Slider';
+
 
 import { Context } from '../../Context';
 
-const drawerWidth = '35%';
-
-
-
+const drawerWidth = 450;
 
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -33,7 +32,7 @@ export default function PersistentDrawerLeft() {
     const theme = useTheme();
     const { sideBarOpen, handleDrawerClose, rentalData, loadingRental } = React.useContext(Context)
 
-    if (!rentalData.price) return
+
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -47,9 +46,7 @@ export default function PersistentDrawerLeft() {
                     '& .MuiDrawer-paper': {
                         width: drawerWidth,
                         boxSizing: 'border-box',
-                        minWidth: '380px',
                         backgroundColor: '#f8f8f8',
-                        maxWidth: '500px'
                     },
                 }}
                 variant="persistent"
@@ -62,6 +59,7 @@ export default function PersistentDrawerLeft() {
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
+
                 <Box sx={{ height: "100%", width: '100%', position: 'relative' }}>
                     {loadingRental ?
                         <Box
@@ -83,17 +81,12 @@ export default function PersistentDrawerLeft() {
                         </Box>
                         :
                         <Stack>
-                            <Box
-                                sx={{
-                                    height: '400px',
-                                    width: '100%',
-                                    overflow: 'hidden',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center'
-                                }}>
-                                <img src={rentalData.images[0]} alt='' className='rentalDetailImg' />
-                            </Box>
+                            {/* RENTAL SLIDES */}
+
+
+                            <SliderComponent images={rentalData.images} />
+
+
 
                             <Stack p={2} spacing={2} sx={{ transform: 'translateY(-35px)' }}>
                                 <Paper
@@ -161,11 +154,6 @@ export default function PersistentDrawerLeft() {
                                                 }
                                             </Stack>
                                         </Box>
-
-                                        <Box>
-                                            <Typography variant='body1'>Size</Typography>
-                                        </Box>
-
 
                                     </Stack>
                                 </Paper>

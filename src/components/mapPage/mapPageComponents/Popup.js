@@ -2,9 +2,9 @@ import React from 'react'
 import LocalHotelOutlinedIcon from '@mui/icons-material/LocalHotelOutlined';
 import { Stack, Box, Typography, IconButton } from '@mui/material'
 
-const Popup = ({ price, mainImage, url, bedrooms, datePosted }) => {
+const Popup = ({ mainImage, url, bedrooms, datePosted, handleRentalClick }) => {
     return (
-        <Box className="popup">
+        <Box className="popup" onClick={() => handleRentalClick(url)} sx={{ cursor: 'pointer' }}>
             <Stack>
                 <Box sx={{ height: '130px', overflow: 'hidden', marginBottom: '.2rem' }}>
                     <img src={mainImage} alt="" />

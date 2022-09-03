@@ -1,18 +1,13 @@
 import React from 'react'
-import { useContext } from 'react'
-import { Box } from '@mui/system'
-import { Paper, Button, Typography, Stack } from '@mui/material'
 
-import WelcomeCompenent from './WelcomeComponent'
-import LocationForm from './LocationForm'
-import Filters from './Filters'
-import { Context } from '../../Context'
+import { Box } from '@mui/system'
+import { Paper } from '@mui/material'
+
+
+import FormSlides from '../../components/FormSlides'
+
 
 const LandingPageForm = () => {
-    const { formData, setFormData, welcomePage, locationForm, filters, switchToFilters, switchToForm, switchBackToForm } = useContext(Context)
-
-
-
 
     return (
         <Box sx={{ display: 'flex', alignItems: 'center', height: '100vh', justifyContent: 'center', position: 'relative' }}>
@@ -33,38 +28,8 @@ const LandingPageForm = () => {
                 position: 'relative',
                 overflow: 'hidden'
             }}>
-                <Box padding={3} sx={{ height: '85%', width: '100%' }}>
 
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end' }}>
-                        {/* LOGO*/}
-                        <Stack spacing={1} direction='row' sx={{ alignItems: 'flex-end', cursor: 'pointer' }}>
-                            <img src='./images/logo-01.svg' alt='' className='logo-sm' />
-                            <Typography variant='body1' sx={{ fontWeight: '500' }}>kijiji mapper</Typography>
-                        </Stack>
-                        {/* BACK TO LOCATION FORM*/}
-                        {filters && <Button variant="text" onClick={switchBackToForm}>CHANGE LOCATION</Button>}
-                        {/* TO KIJIJI BUTTON*/}
-                        <Button variant='outlined' sx={{ height: '35px' }}>Kijiji</Button>
-                    </Box>
-
-                    {/* START PAGE SLIDES*/}
-                    <Box sx={{ display: 'flex', justifyContent: 'center', height: '100%' }}>
-                        {welcomePage && <WelcomeCompenent switchToForm={switchToForm} />}
-                        {locationForm && <LocationForm switchToFilters={switchToFilters} formData={formData} setFormData={setFormData} />}
-
-                        {filters && <Filters formData={formData} setFormData={setFormData} />}
-                    </Box>
-
-                </Box>
-
-                {/* BOTTOM GREY BAND*/}
-                <Box sx={{ height: '16%', background: 'rgba(0,0,0, .05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Stack direction='row' sx={{ justifyContent: 'space-around', width: '50%', opacity: '.5' }}>
-                        <Typography variant='caption'>Home</Typography>
-                        <Typography variant='caption'>Kijiji</Typography>
-                        <Typography variant='caption'>Contact</Typography>
-                    </Stack>
-                </Box>
+                <FormSlides />
 
             </Paper>
 

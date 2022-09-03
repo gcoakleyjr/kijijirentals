@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
@@ -6,7 +6,6 @@ import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -32,13 +31,8 @@ const ExpandMore = styled((props) => {
 
 
 
-function RentalCardDesktop({ data, setIsActive, isActive, id, flyToStore, createPopUp }) {
+function RentalCardDesktop({ data, setIsActive, isActive, id, flyToStore, createPopUp, handleRentalClick }) {
 
-  const [expanded, setExpanded] = useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
 
   function activeRental() {
@@ -82,22 +76,12 @@ function RentalCardDesktop({ data, setIsActive, isActive, id, flyToStore, create
         </IconButton>
 
         <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
+          onClick={() => handleRentalClick(data.properties.url)}
           aria-label="show more"
         >
           <ExpandMoreIcon />
         </ExpandMore>
       </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>Description</Typography>
-          <Typography variant='caption' paragraph>
-            {data.properties.description}
-          </Typography>
-        </CardContent>
-      </Collapse>
     </Card>
   )
 }

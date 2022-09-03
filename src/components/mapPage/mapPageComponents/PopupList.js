@@ -3,19 +3,15 @@ import React from 'react'
 
 import { Stack, Box, Typography, Button } from '@mui/material'
 
-const PopupList = ({ list, handleDrawerOpen, handleRentalFetch, setRentalUrl }) => {
+const PopupList = ({ list, handleRentalClick }) => {
 
-    function handleListClick(url) {
-        setRentalUrl(url)
-        handleDrawerOpen()
-        handleRentalFetch()
-    }
+
 
     const rentalItems = list.map((item, i) => {
         return (
             <Box
                 key={i}
-                onClick={() => handleListClick(item.properties.url)}
+                onClick={() => handleRentalClick(item.properties.url)}
                 className="list-item"
                 sx={{
                     height: '80px',

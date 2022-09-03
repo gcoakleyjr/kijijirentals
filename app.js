@@ -121,7 +121,7 @@ app.get('/api', async (req, res) => {
 
 app.get('/rental', async (req, res) => {
     const { rentalUrl } = req.query
-    console.log(rentalUrl)
+
 
     const getData = async () => {
         try {

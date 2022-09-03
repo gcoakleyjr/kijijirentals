@@ -1,6 +1,7 @@
-import React from "react"
+import React, { useContext } from "react"
 import RentalCardDesktop from "./RentalCardDesktop"
 import { Stack } from "@mui/material"
+import { Context } from "../../Context"
 
 // const data = {
 //     "type": "FeatureCollection",
@@ -1000,10 +1001,10 @@ import { Stack } from "@mui/material"
 
 
 function Cards({ isActive, setIsActive, flyToStore, createPopUp, data }) {
-
+    const { handleRentalClick } = useContext(Context)
     const cards = data.features ? data.features.map((val, i) => {
         return (
-            < RentalCardDesktop data={val} key={i} setIsActive={setIsActive} isActive={isActive} id={i} flyToStore={flyToStore} createPopUp={createPopUp} />
+            < RentalCardDesktop data={val} key={i} setIsActive={setIsActive} isActive={isActive} id={i} flyToStore={flyToStore} createPopUp={createPopUp} handleRentalClick={handleRentalClick} />
         )
     }) : ""
 

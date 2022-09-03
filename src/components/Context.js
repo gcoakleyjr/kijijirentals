@@ -16,8 +16,15 @@ const ContextProvider = ({ children }) => {
 
     const [rentalUrl, setRentalUrl] = useState("")
 
-    const [data, setData] = useState({})
-    const [rentalData, setRentalData] = useState({})
+    const [rentalData, setRentalData] = useState({
+        images: [""],
+        price: "",
+        address: "",
+        generalInfo: [""],
+        utilities: [""],
+        description: [""]
+    })
+    const [data, setData] = useState(JSON.parse(localStorage.getItem("rentals")) || {})
     const [loading, setLoading] = useState(false)
     const [loadingRental, setLoadingRental] = useState(false)
     const [fetchCount, setFetchCount] = useState(0)
@@ -69,14 +76,18 @@ const ContextProvider = ({ children }) => {
     function handleFetch() {
         setLoading(true)
         setFetchCount(fetchCount + 1)
-        console.log(fetchCount)
         setOpen(false)
     }
 
     function handleRentalFetch() {
         setLoadingRental(true)
         setFetchCount2(prev => prev + 2)
-        console.log(fetchCount2)
+    }
+
+    function handleRentalClick(url) {
+        setRentalUrl(url)
+        handleDrawerOpen()
+        handleRentalFetch()
     }
 
 
@@ -90,6 +101,7 @@ const ContextProvider = ({ children }) => {
             .then(data => {
                 setData(data.data)
                 setLoading(false)
+                localStorage.setItem("rentals", JSON.stringify(data.data))
             })
             .catch(error => console.error(error))
     }
@@ -104,23 +116,18 @@ const ContextProvider = ({ children }) => {
             .then(data => {
                 setRentalData(data.data)
                 setLoadingRental(false)
-                console.log(data.data)
             })
             .catch(error => console.error(error))
     }
 
     useEffect(() => {
-
         if (loading) {
             getRentals()
         }
-
     }, [fetchCount])
 
     useEffect(() => {
-        console.log('use1')
         if (loadingRental) {
-            console.log('use2')
             getRental()
         }
     }, [fetchCount2])
@@ -147,7 +154,8 @@ const ContextProvider = ({ children }) => {
             loadingRental,
             handleRentalFetch,
             setRentalUrl,
-            rentalData
+            rentalData,
+            handleRentalClick
         }}>
             {children}
         </Context.Provider>

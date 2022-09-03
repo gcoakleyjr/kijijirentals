@@ -1,5 +1,5 @@
 
-import { Box, Button, Grid, Typography, Modal } from '@mui/material'
+import { Box, Typography, Modal, Stack } from '@mui/material'
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import React, { useContext, useEffect, useRef, useState } from 'react'
@@ -19,17 +19,13 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZ2NvYWtsZXlqciIsImEiOiJjbDU1b3BkdGIwcnZwM2RtZ
 
 
 const RentalsPage = () => {
-    const { loading, handleFetch, open, handleOpen, handleClose, data, handleDrawerOpen, handleRentalFetch, setRentalUrl } = useContext(Context)
+    const { loading, open, handleOpen, handleClose, data, handleDrawerOpen, handleRentalFetch, setRentalUrl, handleRentalClick, handleDrawerClose } = useContext(Context)
     const [isActive, setIsActive] = useState(null)
 
     //MAP
     const mapContainer = useRef(null);
     const map = useRef(null);
     const popUpRef = useRef(new mapboxgl.Popup({ offset: 15, closeButton: false }))
-    // const [lng, setLng] = useState(null); //-79.347015
-    // const [lat, setLat] = useState(); //43.651070
-    // const [zoom, setZoom] = useState(11.2);
-
 
     const flyToRental = React.useCallback((currentFeature) => {
         map.current.flyTo({
@@ -44,11 +40,11 @@ const RentalsPage = () => {
         const root = createRoot(popupNode)
         root.render(
             <Popup
-                price={currentFeature.properties.price}
                 mainImage={currentFeature.properties.mainImage}
                 bedrooms={currentFeature.properties.bedrooms}
                 datePosted={currentFeature.properties.datePosted}
-
+                url={currentFeature.properties.url}
+                handleRentalClick={handleRentalClick}
             />
         )
         popUpRef.current
@@ -168,6 +164,7 @@ const RentalsPage = () => {
                             handleDrawerOpen={handleDrawerOpen}
                             handleRentalFetch={handleRentalFetch}
                             setRentalUrl={setRentalUrl}
+                            handleRentalClick={handleRentalClick}
                         />
                     )
                     popUpRef.current
@@ -177,6 +174,7 @@ const RentalsPage = () => {
 
                 });
 
+                handleDrawerClose()
                 //ZOOM TO CLUSTOR POINT
                 clusterSource.getClusterExpansionZoom(
                     clusterId,
@@ -203,6 +201,7 @@ const RentalsPage = () => {
                 createPopUp(clickedPoint)
                 flyToRental(clickedPoint)
                 setIsActive(clickedPoint.properties.id)
+                handleDrawerClose()
             })
 
 
@@ -253,20 +252,20 @@ const RentalsPage = () => {
             >
                 <CircularProgress color="inherit" />
             </Backdrop>
-            <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                <Typography variant='h2'>
-                    {!loading ? 'Up and Running' : 'Loading...'}
-                </Typography>
-                <Button onClick={handleFetch}>Refresh</Button>
-            </Box>
 
             <PersistentDrawerLeft />
 
-            <Grid container sx={{ height: '100%' }} >
-                <Grid item xs={4} md={3} sx={{ height: '100%', overflow: 'scroll' }} >
-                    <Cards isActive={isActive} setIsActive={setIsActive} flyToStore={flyToRental} createPopUp={createPopUp} data={data} />
-                </Grid>
-                <Grid item xs={8} md={9}>
+            <Stack direction='row' sx={{ height: '100%' }} >
+                <Box sx={{ height: '100%', overflow: 'scroll', minWidth: '450px' }} >
+                    <Cards
+                        isActive={isActive}
+                        setIsActive={setIsActive}
+                        flyToStore={flyToRental}
+                        createPopUp={createPopUp}
+                        data={data}
+                    />
+                </Box>
+                <Box sx={{ width: '100%' }}>
                     <Box sx={{ width: '100%', height: '100%', position: 'relative' }}>
                         <Box ref={mapContainer} className="map-container" />
                         <MenuBar handleOpen={handleOpen} />
@@ -289,13 +288,11 @@ const RentalsPage = () => {
                             }}>
                                 <FiltersModal />
                             </Box>
-
                         </Modal>
                     </Box>
-                </Grid>
-            </Grid>
+                </Box>
+            </Stack>
         </Box>
-
     )
 }
 
