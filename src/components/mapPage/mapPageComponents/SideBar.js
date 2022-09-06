@@ -17,7 +17,7 @@ import { SliderComponent } from './Slider';
 
 import { Context } from '../../Context';
 
-const drawerWidth = 450;
+
 
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -30,9 +30,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function PersistentDrawerLeft() {
     const theme = useTheme();
-    const { sideBarOpen, handleDrawerClose, rentalData, loadingRental } = React.useContext(Context)
+    const { sideBarOpen, handleDrawerClose, rentalData, loadingRental, mediaQueryMd } = React.useContext(Context)
 
-
+    const drawerWidth = mediaQueryMd ? 450 : '100%';
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -146,7 +146,7 @@ export default function PersistentDrawerLeft() {
                                                     ['Hydro', 'Heat', 'Water'].some(val => rentalData.utilities.includes(val))
                                                         ?
                                                         rentalData.utilities.map((val, i) => {
-                                                            if (val === 'Water' || val === 'Hydro' || val === 'Heat') return (<Chip key={i} label={val} />)
+                                                            if (val === 'Water' || val === 'Hydro' || val === 'Heat') return (<Chip key={i} label={val} sx={{ marginBottom: '.5rem', flexWrap: 'wrap' }} />)
                                                             else return ''
                                                         })
                                                         :

@@ -11,7 +11,7 @@ const FiltersModal = () => {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: '100%',
+            width: '92%',
             background: 'linear-gradient(120deg, rgba(255,255,250,1) 0%, rgba(239,242,240,1) 100%)',
             border: "3px solid rgba(200, 200, 200, .3)",
             borderRadius: '24px',

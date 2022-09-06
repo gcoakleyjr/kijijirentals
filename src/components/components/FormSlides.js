@@ -9,7 +9,7 @@ import Filters from '../startingPage/LandingPageComponents/Filters'
 import { useTransition, animated } from 'react-spring'
 
 const FormSlides = () => {
-    const { formData, setFormData, welcomePage, locationForm, filters, switchToFilters, switchToForm, switchBackToForm } = useContext(Context)
+    const { formData, setFormData, welcomePage, locationForm, filters, switchToFilters, switchToForm, switchBackToForm, mediaQueryMd, mediaQuerySm } = useContext(Context)
     const transitionStyles = {
         from: { x: 0, y: 300, opacity: 0 },
         enter: { x: 0, y: 0, opacity: 1 },
@@ -24,16 +24,16 @@ const FormSlides = () => {
         <Box sx={{ width: '100%', height: '100%' }}>
             <Box padding={3} sx={{ height: '85%', width: '100%' }}>
 
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', marginBottom: mediaQueryMd ? '' : '2rem' }}>
                     {/* LOGO*/}
                     <Stack spacing={1} direction='row' sx={{ alignItems: 'flex-end', cursor: 'pointer' }}>
                         <img src='./images/logo-01.svg' alt='' className='logo-sm' />
-                        <Typography variant='body1' sx={{ fontWeight: '500' }}>kijiji mapper</Typography>
+                        {mediaQuerySm && <Typography variant='body1' sx={{ fontWeight: '500' }}>kijiji mapper</Typography>}
                     </Stack>
                     {/* BACK TO LOCATION FORM*/}
-                    {filters && <Button variant="text" onClick={switchBackToForm}>CHANGE LOCATION</Button>}
+                    {filters && <Button variant="text" sx={{ fontSize: mediaQuerySm ? "" : '.6rem' }} onClick={switchBackToForm}>CHANGE LOCATION</Button>}
                     {/* TO KIJIJI BUTTON*/}
-                    <Link underline="none" href='https://www.kijiji.ca/' rel="noopener" target="_blank" sx={{ marginLeft: '50px' }}>
+                    <Link underline="none" href='https://www.kijiji.ca/' rel="noopener" target="_blank" sx={{ marginLeft: mediaQuerySm ? '50px' : '' }}>
                         <Button variant='outlined' sx={{ height: '35px' }}>Kijiji</Button>
                     </Link>
                 </Box>

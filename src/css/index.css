@@ -2,6 +2,12 @@
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
 
+#fullheight {
+    background: 'white';
+    width: '100vw';
+    height: '100vh'
+}
+
 
 /* ********
 HOME PAGE
@@ -36,14 +42,14 @@ HOME PAGE
 
 .circle.c-2 {
     width: 30px;
-    left: 63%;
+    left: 69%;
     top: 83%;
 }
 
 .circle.c-3 {
     width: 20px;
-    left: 59%;
-    top: 93%;
+    left: 51%;
+    top: 95%;
 }
 
 .circle.c-4 {
@@ -55,12 +61,12 @@ HOME PAGE
 .circle.c-5 {
     width: 25px;
     left: 37%;
-    top: 5%;
+    top: 3%;
 }
 
 .circle.c-6 {
     width: 50px;
-    left: 34%;
+    left: 24%;
     top: 10%;
 }
 
@@ -248,3 +254,57 @@ RENTAL SIDE BAR
 .slick-dots {
     bottom: 30px;
 }
+
+/*
+MEDIA QUERY
+*/
+
+@media screen and (min-width: 1920px) {
+    .circle.c-1 {
+        left: 50%;
+        top: 70%;
+    }
+
+    .circle.c-2 {
+        width: 30px;
+        left: 1715px;
+        top: 1150px;
+    }
+
+    .circle.c-3 {
+        width: 65px;
+        left: 1600px;
+        top: 1010px;
+    }
+
+    .circle.c-4 {
+        width: 222px;
+        left: 985px;
+        top: 180px;
+    }
+
+    .circle.c-5 {
+        width: 90px;
+        left: 770px;
+        top: 150px;
+    }
+
+    .circle.c-6 {
+        width: 25px;
+        left: 485px;
+        top: 95px;
+    }
+
+    .circle.c-8 {
+        width: 70px;
+        left: 16px;
+        top: 35%;
+    }
+
+}
+
+/* @media screen and (max-width: 600px) {
+    .logo-sm {
+        margin-right: 50px;
+    }
+} */

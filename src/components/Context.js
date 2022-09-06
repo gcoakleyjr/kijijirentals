@@ -1,8 +1,19 @@
 import React, { createContext, useState, useEffect } from 'react'
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+
 import axios from 'axios'
 const Context = createContext()
 
 const ContextProvider = ({ children }) => {
+    //MEDIA QUERY
+    const theme = useTheme();
+    const mediaQuerySm = useMediaQuery(theme.breakpoints.up('sm'));
+    const mediaQueryMd = useMediaQuery(theme.breakpoints.up('md'));
+
+    //STATES
+
+
     const [formData, setFormData] = useState({
         province: '',
         area: [],
@@ -94,7 +105,7 @@ const ContextProvider = ({ children }) => {
     function getRentals() {
         const options = {
             method: 'GET',
-            url: 'http://localhost:3001/api',
+            url: 'https://dry-oasis-06648.herokuapp.com/api',
             params: { formData }
         }
         axios.request(options)
@@ -109,7 +120,7 @@ const ContextProvider = ({ children }) => {
     function getRental() {
         const options = {
             method: 'GET',
-            url: 'http://localhost:3001/rental',
+            url: 'https://dry-oasis-06648.herokuapp.com/rental',
             params: { rentalUrl }
         }
         axios.request(options)
@@ -134,6 +145,8 @@ const ContextProvider = ({ children }) => {
 
     return (
         <Context.Provider value={{
+            mediaQuerySm,
+            mediaQueryMd,
             formData,
             setFormData,
             data,

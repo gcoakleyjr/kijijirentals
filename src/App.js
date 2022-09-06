@@ -6,10 +6,9 @@ import {
 
 import { ThemeProvider } from '@mui/system';
 import theme from './themes/theme';
+
 import LandingPage from './components/startingPage/LandingPage'
 import RentalsPage from './components/mapPage/RentalsPage'
-
-
 
 const App = () => {
 

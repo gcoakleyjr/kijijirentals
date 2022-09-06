@@ -1,7 +1,6 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
-
-const theme = createTheme({
+let theme = createTheme({
     palette: {
         primary: {
             main: '#5c999b',
@@ -11,5 +10,17 @@ const theme = createTheme({
         },
     },
 });
+
+theme = responsiveFontSizes(theme)
+
+theme.typography.h2 = {
+    fontSize: '1.575rem',
+    '@media (min-width:600px)': {
+        fontSize: '50px',
+    },
+    [theme.breakpoints.up('md')]: {
+        fontSize: '54px',
+    },
+};
 
 export default theme

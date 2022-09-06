@@ -19,7 +19,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZ2NvYWtsZXlqciIsImEiOiJjbDU1b3BkdGIwcnZwM2RtZ
 
 
 const RentalsPage = () => {
-    const { loading, open, handleOpen, handleClose, data, handleDrawerOpen, handleRentalFetch, setRentalUrl, handleRentalClick, handleDrawerClose } = useContext(Context)
+    const { loading, open, handleOpen, handleClose, data, handleDrawerOpen, handleRentalFetch, setRentalUrl, handleRentalClick, handleDrawerClose, mediaQueryMd } = useContext(Context)
     const [isActive, setIsActive] = useState(null)
 
     //MAP
@@ -165,6 +165,7 @@ const RentalsPage = () => {
                             handleRentalFetch={handleRentalFetch}
                             setRentalUrl={setRentalUrl}
                             handleRentalClick={handleRentalClick}
+                            mediaQueryMd={mediaQueryMd}
                         />
                     )
                     popUpRef.current
@@ -233,7 +234,10 @@ const RentalsPage = () => {
             // });
 
             // Add navigation control (the +/- zoom buttons)
-            map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
+            if (mediaQueryMd) {
+                map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
+            }
+
 
 
         });
@@ -256,15 +260,20 @@ const RentalsPage = () => {
             <PersistentDrawerLeft />
 
             <Stack direction='row' sx={{ height: '100%' }} >
-                <Box sx={{ height: '100%', overflow: 'scroll', minWidth: '450px' }} >
-                    <Cards
-                        isActive={isActive}
-                        setIsActive={setIsActive}
-                        flyToStore={flyToRental}
-                        createPopUp={createPopUp}
-                        data={data}
-                    />
-                </Box>
+                {
+                    mediaQueryMd
+                    &&
+                    <Box sx={{ height: '100%', overflow: 'scroll', minWidth: '450px' }} >
+                        <Cards
+                            isActive={isActive}
+                            setIsActive={setIsActive}
+                            flyToStore={flyToRental}
+                            createPopUp={createPopUp}
+                            data={data}
+                        />
+                    </Box>
+                }
+
                 <Box sx={{ width: '100%' }}>
                     <Box sx={{ width: '100%', height: '100%', position: 'relative' }}>
                         <Box ref={mapContainer} className="map-container" />

@@ -16,7 +16,7 @@ import { unitType, bedrooms } from '../../../utils/filterParameters';
 import { Typography } from '@mui/material';
 
 const Filters = ({ formData, setFormData }) => {
-    const { handleFetch } = useContext(Context)
+    const { handleFetch, mediaQueryMd, mediaQuerySm } = useContext(Context)
 
     function handleUnitChange(e, value) {
         const unitCode = value.length > 0 ? value[0].unitCode : ''
@@ -57,14 +57,15 @@ const Filters = ({ formData, setFormData }) => {
     };
 
     return (
-        <Stack spacing={4} sx={{ maxWidth: '600px', minWidth: '300px', alignItems: 'center' }}>
-            <Typography variant='h2'>What kind of place?</Typography>
+        <Stack spacing={mediaQuerySm ? 3 : 2} sx={{ maxWidth: '600px', minWidth: '200px', alignItems: 'center' }}>
+            <Typography variant='h2' sx={{ fontWeight: 100 }}>What kind of place?</Typography>
             <Autocomplete
                 multiple
+                limitTags={mediaQueryMd ? 2 : mediaQuerySm ? 1 : 0}
                 onChange={handleUnitChange}
                 id="unit-type"
                 options={unitType}
-                sx={{ minWidth: '300px' }}
+                sx={{ minWidth: '200px', width: '70%' }}
                 renderInput={(params) => (
                     <TextField
                         {...params}
@@ -77,8 +78,9 @@ const Filters = ({ formData, setFormData }) => {
 
             <Autocomplete
                 multiple
+                limitTags={mediaQueryMd ? 2 : mediaQuerySm ? 1 : 0}
                 onChange={handleRoomChange}
-                sx={{ minWidth: '300px' }}
+                sx={{ minWidth: '200px', width: '70%' }}
                 id="bedrooms"
                 options={bedrooms}
                 renderInput={(params) => (

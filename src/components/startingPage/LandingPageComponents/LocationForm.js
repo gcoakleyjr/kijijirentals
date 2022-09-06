@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { Context } from '../../Context.js';
+
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete'
 import { IconButton, Stack } from '@mui/material';
@@ -19,6 +21,8 @@ const Input = styled(MuiInput)`
 `;
 
 const LocationForm = ({ switchToFilters, formData, setFormData }) => {
+    const { mediaQueryMd } = useContext(Context)
+
     //STATES
     const [cityShow, setCityShow] = useState(false)
     const [options, setOptions] = useState(areas.Ontario)
@@ -100,17 +104,18 @@ const LocationForm = ({ switchToFilters, formData, setFormData }) => {
     };
 
     return (
-        <Stack spacing={2} sx={{ maxWidth: '600px', alignItems: 'center' }}>
-            <Typography variant='h2'>
+        <Stack spacing={mediaQueryMd ? 2 : 1} sx={{ maxWidth: '600px', alignItems: 'center' }}>
+
+            <Typography variant='h2' sx={{ fontWeight: 100 }}>
                 Where to look?
             </Typography>
-            <Autocomplete
 
+            <Autocomplete
                 onChange={handleProvinceChange}
                 disablePortal
                 id="selectProvince"
                 options={provinces}
-                sx={{ width: 300 }}
+                sx={{ maxWidth: 300, minWidth: 200, width: '80%' }}
                 renderInput={(params) => <TextField {...params} label="Province" />}
             />
 
@@ -121,18 +126,18 @@ const LocationForm = ({ switchToFilters, formData, setFormData }) => {
             }
 
             {cityShow &&
-                <Stack spacing={2}>
+                <Stack spacing={mediaQueryMd ? 2 : 1} sx={{ width: '100%', alignItems: 'center' }}>
                     <Autocomplete
 
                         onChange={handleFormChange}
                         disablePortal
                         id="selectArea"
                         options={options}
-                        sx={{ width: 300 }}
+                        sx={{ maxWidth: 300, minWidth: 200, width: '80%' }}
                         renderInput={(params) => <TextField {...params} label="Area" />}
                     />
 
-                    <Box sx={{ width: 300 }}>
+                    <Box sx={{ maxWidth: 300, minWidth: 200, width: '80%' }}>
                         <Typography id="input-slider" gutterBottom>
                             Distance
                         </Typography>

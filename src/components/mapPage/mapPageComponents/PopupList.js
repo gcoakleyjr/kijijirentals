@@ -3,7 +3,7 @@ import React from 'react'
 
 import { Stack, Box, Typography, Button } from '@mui/material'
 
-const PopupList = ({ list, handleRentalClick }) => {
+const PopupList = ({ list, handleRentalClick, mediaQueryMd }) => {
 
 
 
@@ -48,7 +48,7 @@ const PopupList = ({ list, handleRentalClick }) => {
             spacing={1}
             className="popup-list"
             sx={{
-                maxHeight: '320px',
+                maxHeight: mediaQueryMd ? '320px' : '270px',
                 overflowY: 'scroll',
                 padding: '.5rem',
                 width: '345px'
