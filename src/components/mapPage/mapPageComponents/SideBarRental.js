@@ -83,13 +83,10 @@ export default function PersistentDrawerLeft() {
                         </Box>
                         :
                         <Stack>
-                            {/* RENTAL SLIDES */}
-
-
+                            {/* RENTAL IMAGE SLIDES */}
                             <SliderComponent images={rentalData.images} />
 
-
-
+                            {/* RENTAL DESCRIPTION */}
                             <Stack p={2} spacing={2} sx={{ transform: 'translateY(-35px)' }}>
                                 <Paper
                                     className='rentalDetailCard'

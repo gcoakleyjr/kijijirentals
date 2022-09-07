@@ -8,6 +8,11 @@
     height: '100vh'
 }
 
+#fullheight-map {
+    height: '100vh';
+    overflow: 'hidden'
+}
+
 
 /* ********
 HOME PAGE

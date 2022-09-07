@@ -6,6 +6,8 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Context } from '../Context'
 import { createRoot } from 'react-dom/client'
 
+import Div100vh from 'react-div-100vh';
+
 import Marker from './mapPageComponents/Markers'
 import Popup from './mapPageComponents/Popup'
 import MenuBar from './mapPageComponents/MenuBar'
@@ -27,6 +29,8 @@ const RentalsPage = () => {
     const map = useRef(null);
     const popUpRef = useRef(new mapboxgl.Popup({ offset: 15, closeButton: false }))
 
+
+    //POP UP FUNCTIONS
     const flyToRental = React.useCallback((currentFeature) => {
         map.current.flyTo({
             center: currentFeature.geometry.coordinates,
@@ -53,6 +57,7 @@ const RentalsPage = () => {
             .addTo(map.current)
     }, [])
 
+    //HIDE RENTAL LIST ON SMALLER SCREEN SIZES
     useEffect(() => {
         if (!mediaQueryMd) {
             handleRentalListDrawerClose()
@@ -266,7 +271,7 @@ const RentalsPage = () => {
 
 
     return (
-        <Box component='main' sx={{ height: '100vh', overflow: 'hidden' }}>
+        <Div100vh id='fullheight-map'>
 
             <Backdrop
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -314,7 +319,7 @@ const RentalsPage = () => {
                     </Box>
                 </Box>
             </Stack>
-        </Box>
+        </Div100vh>
     )
 }
 

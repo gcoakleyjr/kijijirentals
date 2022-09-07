@@ -94,7 +94,6 @@ const ContextProvider = ({ children }) => {
 
     const handleRentalListToggle = () => {
         setSideBarRentalListOpen(prev => !prev);
-        console.log("toggle")
     };
 
     //BACKEND FETCH
