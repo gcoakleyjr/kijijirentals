@@ -12,14 +12,14 @@ import MenuBar from './mapPageComponents/MenuBar'
 import Cards from './mapPageComponents/Cards'
 import FiltersModal from './mapPageComponents/FiltersModal'
 import PopupList from './mapPageComponents/PopupList'
-import PersistentDrawerLeft from './mapPageComponents/SideBar'
+import PersistentDrawerLeft from './mapPageComponents/SideBarRental'
 
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ2NvYWtsZXlqciIsImEiOiJjbDU1b3BkdGIwcnZwM2RtZnhxdThqZzNsIn0.ir90AYJ272JpNzo3c8HUHg';
 
 
 const RentalsPage = () => {
-    const { loading, open, handleOpen, handleClose, data, handleDrawerOpen, handleRentalFetch, setRentalUrl, handleRentalClick, handleDrawerClose, mediaQueryMd } = useContext(Context)
+    const { loading, open, handleOpen, handleClose, data, handleRentalDrawerOpen, handleRentalFetch, setRentalUrl, handleRentalClick, handleRentalDrawerClose, handleRentalListToggle, mediaQueryMd, handleRentalListDrawerClose, handleRentalListDrawerOpen } = useContext(Context)
     const [isActive, setIsActive] = useState(null)
 
     //MAP
@@ -52,6 +52,14 @@ const RentalsPage = () => {
             .setDOMContent(popupNode)
             .addTo(map.current)
     }, [])
+
+    useEffect(() => {
+        if (!mediaQueryMd) {
+            handleRentalListDrawerClose()
+        } else if (mediaQueryMd) {
+            handleRentalListDrawerOpen()
+        }
+    }, [mediaQueryMd])
 
     //CREATE MAP
     useEffect(() => {
@@ -154,14 +162,14 @@ const RentalsPage = () => {
                 const clusterSource = map.current.getSource('data')
 
                 clusterSource.getClusterChildren(clusterId, function (err, list) {
-                    console.log('getClusterChildren', list);
+
                     const popupNode = document.createElement("div")
 
                     const root = createRoot(popupNode)
                     root.render(
                         <PopupList
                             list={list}
-                            handleDrawerOpen={handleDrawerOpen}
+                            handleRentalDrawerOpen={handleRentalDrawerOpen}
                             handleRentalFetch={handleRentalFetch}
                             setRentalUrl={setRentalUrl}
                             handleRentalClick={handleRentalClick}
@@ -174,8 +182,10 @@ const RentalsPage = () => {
                         .addTo(map.current)
 
                 });
-
-                handleDrawerClose()
+                if (!mediaQueryMd) {
+                    handleRentalListDrawerClose()
+                }
+                handleRentalDrawerClose()
                 //ZOOM TO CLUSTOR POINT
                 clusterSource.getClusterExpansionZoom(
                     clusterId,
@@ -202,7 +212,10 @@ const RentalsPage = () => {
                 createPopUp(clickedPoint)
                 flyToRental(clickedPoint)
                 setIsActive(clickedPoint.properties.id)
-                handleDrawerClose()
+                handleRentalDrawerClose()
+                if (!mediaQueryMd) {
+                    handleRentalListDrawerClose()
+                }
             })
 
 
@@ -225,13 +238,18 @@ const RentalsPage = () => {
                     .addTo(map.current);
             });
 
-            // map.on('mouseenter', 'unclustered-point', () => {
-            //     map.getCanvas().style.cursor = 'pointer';
-            //     console.log("enter")
-            // });
-            // map.on('mouseleave', 'unclustered-point', () => {
-            //     map.getCanvas().style.cursor = '';
-            // });
+            map.current.on('mouseenter', 'unclustered-point', () => {
+                map.current.getCanvas().style.cursor = 'pointer';
+            });
+            map.current.on('mouseleave', 'unclustered-point', () => {
+                map.current.getCanvas().style.cursor = '';
+            });
+            map.current.on('mouseenter', 'clusters', () => {
+                map.current.getCanvas().style.cursor = 'pointer';
+            });
+            map.current.on('mouseleave', 'clusters', () => {
+                map.current.getCanvas().style.cursor = '';
+            });
 
             // Add navigation control (the +/- zoom buttons)
             if (mediaQueryMd) {
@@ -260,24 +278,19 @@ const RentalsPage = () => {
             <PersistentDrawerLeft />
 
             <Stack direction='row' sx={{ height: '100%' }} >
-                {
-                    mediaQueryMd
-                    &&
-                    <Box sx={{ height: '100%', overflow: 'scroll', minWidth: '450px' }} >
-                        <Cards
-                            isActive={isActive}
-                            setIsActive={setIsActive}
-                            flyToStore={flyToRental}
-                            createPopUp={createPopUp}
-                            data={data}
-                        />
-                    </Box>
-                }
+
+                <Cards
+                    isActive={isActive}
+                    setIsActive={setIsActive}
+                    flyToStore={flyToRental}
+                    createPopUp={createPopUp}
+                    data={data}
+                />
 
                 <Box sx={{ width: '100%' }}>
                     <Box sx={{ width: '100%', height: '100%', position: 'relative' }}>
                         <Box ref={mapContainer} className="map-container" />
-                        <MenuBar handleOpen={handleOpen} />
+                        <MenuBar handleOpen={handleOpen} mediaQueryMd={mediaQueryMd} handleRentalListToggle={handleRentalListToggle} />
                         <Modal
                             open={open}
                             onClose={handleClose}

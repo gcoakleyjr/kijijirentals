@@ -31,14 +31,15 @@ const ExpandMore = styled((props) => {
 
 
 
-function RentalCardDesktop({ data, setIsActive, isActive, id, flyToStore, createPopUp, handleRentalClick }) {
-
-
+function RentalCard({ data, setIsActive, isActive, id, flyToStore, createPopUp, handleRentalClick, handleRentalListDrawerClose, mediaQueryMd }) {
 
   function activeRental() {
     setIsActive(id)
     flyToStore(data)
     createPopUp(data)
+    if (!mediaQueryMd) {
+      handleRentalListDrawerClose()
+    }
   }
 
 
@@ -86,4 +87,4 @@ function RentalCardDesktop({ data, setIsActive, isActive, id, flyToStore, create
   )
 }
 
-export default React.memo(RentalCardDesktop)
+export default React.memo(RentalCard)

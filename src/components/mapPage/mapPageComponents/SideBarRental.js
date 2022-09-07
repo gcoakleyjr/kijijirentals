@@ -30,9 +30,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function PersistentDrawerLeft() {
     const theme = useTheme();
-    const { sideBarOpen, handleDrawerClose, rentalData, loadingRental, mediaQueryMd } = React.useContext(Context)
+    const { sideBarRentalOpen, handleRentalDrawerClose, rentalData, loadingRental, mediaQueryMd, mediaQuerySm } = React.useContext(Context)
 
-    const drawerWidth = mediaQueryMd ? 450 : '100%';
+    const drawerWidth = mediaQueryMd ? 450 : mediaQuerySm ? '50%' : '100%';
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -43,18 +43,20 @@ export default function PersistentDrawerLeft() {
                     width: drawerWidth,
                     position: 'absolute',
                     flexShrink: 0,
+                    zIndex: '500',
                     '& .MuiDrawer-paper': {
                         width: drawerWidth,
                         boxSizing: 'border-box',
                         backgroundColor: '#f8f8f8',
+                        zIndex: '500',
                     },
                 }}
                 variant="persistent"
                 anchor="left"
-                open={sideBarOpen}
+                open={sideBarRentalOpen}
             >
                 <DrawerHeader>
-                    <IconButton onClick={handleDrawerClose}>
+                    <IconButton onClick={handleRentalDrawerClose}>
                         {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                     </IconButton>
                 </DrawerHeader>

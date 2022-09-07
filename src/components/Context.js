@@ -66,21 +66,35 @@ const ContextProvider = ({ children }) => {
         switchToForm()
         switchToFilters()
         setOpen(true);
-        setSideBarOpen(false)
+        setSideBarRentalOpen(false)
     }
     const handleClose = () => {
         setOpen(false)
     };
 
     //SIDEBAR STATES
-    const [sideBarOpen, setSideBarOpen] = useState(false);
+    const [sideBarRentalOpen, setSideBarRentalOpen] = useState(false);
+    const [sideBarRentalListOpen, setSideBarRentalListOpen] = useState(true);
 
-    const handleDrawerOpen = () => {
-        setSideBarOpen(true);
+    const handleRentalDrawerOpen = () => {
+        setSideBarRentalOpen(true);
     };
 
-    const handleDrawerClose = () => {
-        setSideBarOpen(false);
+    const handleRentalDrawerClose = () => {
+        setSideBarRentalOpen(false);
+    };
+
+    const handleRentalListDrawerOpen = () => {
+        setSideBarRentalListOpen(true);
+    };
+
+    const handleRentalListDrawerClose = () => {
+        setSideBarRentalListOpen(false);
+    };
+
+    const handleRentalListToggle = () => {
+        setSideBarRentalListOpen(prev => !prev);
+        console.log("toggle")
     };
 
     //BACKEND FETCH
@@ -97,7 +111,7 @@ const ContextProvider = ({ children }) => {
 
     function handleRentalClick(url) {
         setRentalUrl(url)
-        handleDrawerOpen()
+        handleRentalDrawerOpen()
         handleRentalFetch()
     }
 
@@ -161,9 +175,13 @@ const ContextProvider = ({ children }) => {
             open,
             handleClose,
             handleOpen,
-            sideBarOpen,
-            handleDrawerOpen,
-            handleDrawerClose,
+            sideBarRentalListOpen,
+            handleRentalListDrawerOpen,
+            handleRentalListDrawerClose,
+            handleRentalListToggle,
+            sideBarRentalOpen,
+            handleRentalDrawerOpen,
+            handleRentalDrawerClose,
             loadingRental,
             handleRentalFetch,
             setRentalUrl,
