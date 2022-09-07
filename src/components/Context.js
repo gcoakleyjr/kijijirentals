@@ -9,7 +9,7 @@ const ContextProvider = ({ children }) => {
     //MEDIA QUERY
     const theme = useTheme();
     const mediaQuerySm = useMediaQuery(theme.breakpoints.up('sm'));
-    const mediaQueryMd = useMediaQuery(theme.breakpoints.up('md'));
+    const mediaQueryMd = useMediaQuery(theme.breakpoints.up('md'))
 
     //STATES
 
