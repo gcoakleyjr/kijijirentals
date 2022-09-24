@@ -57,7 +57,7 @@ const RentalsPage = () => {
             .addTo(map.current)
     }, [])
 
-    //HIDE RENTAL LIST ON SMALLER SCREEN SIZES
+    //HIDE RENTAL LIST ON SMALLER SCREEN SIZES PLS
     useEffect(() => {
         if (!mediaQueryMd) {
             handleRentalListDrawerClose()
