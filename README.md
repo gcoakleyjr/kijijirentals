@@ -1,7 +1,7 @@
 # Kijiji Rental Mapper
 A fullstack application developed using React.js and Material UI for a high-fidelity UX/UI design and Node.js and Express.js server to create an API used to fetch rental information for a client.
  
-**Link to project:** https://kijijimapper.herokuapp.com/
+**Link to project:** https://kijijimapper.netlify.app/
 
 ![kijijigif2](https://user-images.githubusercontent.com/95830133/189929407-fe4388e3-d7e9-4129-9d06-a482a002ec1f.gif)
 
